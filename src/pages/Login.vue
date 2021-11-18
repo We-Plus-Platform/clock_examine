@@ -24,8 +24,8 @@ export default {
   data() {
     return {
       loginform: {
-        userId: "",
-        userPassword: "",
+        userId: "2020214896",
+        userPassword: "a123456",
       },
     };
   },
@@ -40,8 +40,8 @@ export default {
       }).then((res) => {
         localStorage.setItem("token", res.data.token);
         console.log(res);
-        this.$router.push("/home");
         if (res.data.state === "登录成功") {
+          this.$router.push("/home");
           alert(res.data.state);
         } else {
           alert(res.data.state);

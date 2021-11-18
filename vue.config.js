@@ -1,8 +1,9 @@
 module.exports = {
   lintOnSave: false,
+  publicPath: './',
   pages: {
     index: {
-      entry: "src/main.js"
+      entry: 'src/main.js'
     }
   },
   devServer: {
@@ -16,5 +17,5 @@ module.exports = {
         }
       }
     }
-  },
+  }
 }

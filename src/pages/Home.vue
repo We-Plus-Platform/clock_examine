@@ -28,7 +28,7 @@ export default {
     yes() {
       console.log(this.personList);
       axios({
-        url: "/api/admin/changeLastPoint",
+        url: "/admin/changeLastPoint",
         method: "post",
         params: {
           userId: this.personList[0].userId,
@@ -39,18 +39,18 @@ export default {
           position: "bottom",
         });
         console.log(res);
-        //展示上传用户的信息
+        // 展示上传用户的信息
         axios({
-          url: "/api/admin/showAllUser",
+          url: "/admin/showAllUser",
           methods: "get",
         }).then((res) => {
           console.log("用户信息返回值");
           this.personList = res.data;
           console.log(this.personList);
           if (this.personList.length !== 0) {
-            //获取图片的预览
+            // 获取图片的预览
             axios({
-              url: "/api/record/previewCheck",
+              url: "/record/previewCheck",
               responseType: "blob",
               methods: "get",
               params: {
@@ -71,7 +71,7 @@ export default {
     },
     no() {
       axios({
-        url: "/api/admin/unQualified",
+        url: "/admin/unQualified",
         method: "post",
         params: {
           userId: this.personList[0].userId,
@@ -83,16 +83,16 @@ export default {
         });
         console.log(res);
         axios({
-          url: "/api/admin/showAllUser",
+          url: "/admin/showAllUser",
           methods: "get",
         }).then((res) => {
           console.log("用户信息返回值");
           this.personList = res.data;
           console.log(this.personList);
           if (this.personList.length !== 0) {
-            //获取图片的预览
+            // 获取图片的预览
             axios({
-              url: "/api/record/previewCheck",
+              url: "/record/previewCheck",
               responseType: "blob",
               methods: "get",
               params: {
@@ -113,34 +113,42 @@ export default {
     },
   },
   mounted() {
-    //展示上传用户的信息
+    // 展示上传用户的信息
     axios({
-      url: "/api/admin/showAllUser",
+      url: "/admin/showAllUser",
       methods: "get",
-    }).then((res) => {
-      console.log("用户信息返回值");
-      this.personList = res.data;
-      console.log(this.personList);
-      if (this.personList.length !== 0) {
-        //获取图片的预览
-        axios({
-          url: "/api/record/previewCheck",
-          responseType: "blob",
-          methods: "get",
-          params: {
-            userId: this.personList[0].userId,
-          },
-          responseType: "arraybuffer",
-        }).then((response) => {
-          console.log(response);
-          this.imgLists =
-            "data:image/png;base64," +
-            Buffer.from(response.data).toString("base64");
-        });
-      } else {
-        alert("审核完毕");
-      }
-    });
+    })
+      .then((res) => {
+        console.log("用户信息返回值");
+        this.personList = res.data;
+        console.log(this.personList);
+        if (this.personList.length !== 0) {
+          // 获取图片的预览
+          axios({
+            url: "/record/previewCheck",
+            responseType: "blob",
+            methods: "get",
+            params: {
+              userId: this.personList[0].userId,
+            },
+            responseType: "arraybuffer",
+          })
+            .then((response) => {
+              console.log(response);
+              this.imgLists =
+                "data:image/png;base64," +
+                Buffer.from(response.data).toString("base64");
+            })
+            .catch(function (error) {
+              alert(error);
+            });
+        } else {
+          alert("审核完毕");
+        }
+      })
+      .catch(function (error) {
+        alert(error);
+      });
   },
 };
 </script>
@@ -168,7 +176,6 @@ export default {
 .yulan .picture img {
   margin-top: 15%;
   margin-left: 15%;
-  /* background-color: rgb(226, 94, 41); */
   width: 70%;
   height: 70%;
 }
